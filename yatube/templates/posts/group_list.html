@@ -1,31 +1,17 @@
 {% extends 'base.html' %}
-    <title>
-      {% block title %}Записи сообщества {{ group }}{% endblock %}
-    </title>
+    {% block title %}Записи сообщества {{ group }}{% endblock %}
       {% block content %}
       <div class="container py-5">
-        <h1>{{ group }}</h1>
+        <h1 class="card-header">{{ group }}</h1>
         <p>
           <span style="color:green"><i>{{ group.description }}</i></span>
         </p>
-        <!-- Шаблон post_feed неприменим здесь, т.к. он содержит встроенную
-        ссылку на "все записи группы", которая не нужна все
-        на странице с этими самыми записями. -->
         {% for post in posts %}
         <article>
-          <ul>
-            <li>
-              Автор: {{ post.author.get_full_name }}
-            </li>
-            <li>
-              Дата публикации: {{ post.pub_date|date:"d E Y" }}
-            </li>
-          </ul>      
-          <p>
-            {{ post.text }}
-          </p>
-          {% if not forloop.last %}<hr>{% endif %}
+          {% include 'includes/post_feed.html' with display_group_link=False %}
         </article>
+          {% if not forloop.last %}<hr>{% endif %}
         {% endfor %}
       </div>
       {% endblock %}
+      
